@@ -16,17 +16,21 @@
 #ifndef CMA_CARMOTIONANIMATOR_HPP_
 #define CMA_CARMOTIONANIMATOR_HPP_
 
-#include <maya/MString.h>
-#include <maya/MArgList.h>
 #include <maya/MFnPlugin.h>
-#include <maya/MPxCommand.h>
 #include <maya/MObject.h>
 
 namespace cma {
 
+/** initializePlugin
+ * プラグインの初期化処理を行う。maya側からコールされる関数。
+ */
+MStatus initializePlugin(MObject _obj);
 
+/** uninitializePlugin
+ * プラグインのアンロード処理を行う。maya側からコールされる関数。
+ */
+MStatus uninitializePlugin(MObject _obj);
 
 };
-
 
 #endif //end of include guard
