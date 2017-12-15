@@ -8,3 +8,17 @@ Mayaにて車のモーションを付けたい、けどサスペンションも�
 
 # License
 This software is released under the MIT License, see LICENSE.txt.
+
+# 環境構築
+当方Visual Studio 2015 Communityと、Autodesk Maya 2015 SP2を使用
+
+## 環境構築時に参考にしたURL
+[【Maya C++】Maya C++の始め方(maya2017 update4)](https://unpyside.wixsite.com/unpyside/single-post/2017/07/03/%E3%80%90Maya-C%E3%80%91Maya-C%E3%81%AE%E5%A7%8B%E3%82%81%E6%96%B9maya2017-update4)
+
+## ビルド後コマンド
+VS2015Communityの、[CarMotionAnimator]プロパティー->構成プロパティ->ビルドイベント->ビルド後のイベントに以下を追加
+
+```
+copy $(TargetPath) [プラグイン保管場所へのパス]
+```
+
