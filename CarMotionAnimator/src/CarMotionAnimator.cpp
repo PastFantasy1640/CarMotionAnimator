@@ -6,6 +6,7 @@
 //*** INCLUDE HEADERS ***
 
 //#include "Hogehoge.hpp"
+#include "node/KeepDistanceNode.hpp"
 
 //***********************
 
@@ -47,6 +48,7 @@ std::vector<NodePair> getNodes(void) {
 	//NodePair("ノード名", [Node ID], [クリエイター関数のポインタ], [initialize関数のポインタ]),
 	return std::vector<NodePair> {
 		//NodePair("Hogehoge", cma::Hogehoge::HogehogeID, cma::Hogehoge::creator, cma::Hogehoge::initialize),
+		NodePair("KeepDistance", cma::KeepDistanceNode::id, cma::KeepDistanceNode::creator, cma::KeepDistanceNode::initialize)
 	};
 }
 
@@ -67,6 +69,7 @@ MStatus addCommands(MFnPlugin & plugin) {
 			break;
 		}
 	}
+	return stat;
 }
 
 
@@ -86,6 +89,7 @@ MStatus addNodes(MFnPlugin & plugin) {
 			break;
 		}
 	}
+	return stat;
 }
 
 
@@ -105,6 +109,7 @@ MStatus removeCommands(MFnPlugin & plugin) {
 			break;
 		}
 	}
+	return stat;
 }
 
 
@@ -124,9 +129,8 @@ MStatus removeNodes(MFnPlugin & plugin) {
 			break;
 		}
 	}
+	return stat;
 }
-
-
 
 };
 

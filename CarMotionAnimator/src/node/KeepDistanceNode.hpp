@@ -12,13 +12,12 @@
 #define CMA_KEEPDISTANCENODE_HPP_
 
 #include <maya/MString.h>
-#include <maya/MFnPlugin.h>
 #include <maya/MPxNode.h>
 #include <maya/MTypeId.h>
 #include <maya/MPlug.h>
 #include <maya/MDataBlock.h>
 #include <maya/MDataHandle.h>
-#include <maya/MFnNumericAttribute.h>
+
 
 namespace cma {
 
@@ -35,8 +34,8 @@ public:
 	//////////////////////////////
 	// PUBLIC MEMBER VALIABLES
 	//////////////////////////////
-	static MObject input;		//ì¸óÕ
-	static MObject output;		//èoóÕ
+	static MObject inMesh;
+
 	static const MTypeId id;	//ID
 	
 	//////////////////////////////
