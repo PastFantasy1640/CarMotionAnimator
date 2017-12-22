@@ -1,0 +1,27 @@
+/////////////////////////////////////////////////////
+//cmaMenuUI.mel
+//
+//Copyright (c) 2017 Shotaro Shirao
+//
+//This software is released under the MIT License.
+//http://opensource.org/licenses/mit-license.php
+/////////////////////////////////////////////////////
+
+global string $g_cmaMenu = "";	//メインのCMAメニュー識別子
+
+global proc cmaMenuUI(string $menuName){
+    global string $g_cmaMenu;
+    global string $gMainWindow;
+	if(`menu -exists ($g_cmaMenu)`) return;
+
+	//メニューバー登録
+	$g_cmaMenu = `menu -label $menuName -tearOff true -parent ($gMainWindow) mainCmaMenu`;
+}
+
+global proc cmaDeleteUI(){
+	global string $g_cmaMenu;
+
+	if($g_cmaMenu != ""){
+		if(`menu -exists ($g_cmaMenu)`) deleteUI -menu $g_cmaMenu;
+	}
+}
