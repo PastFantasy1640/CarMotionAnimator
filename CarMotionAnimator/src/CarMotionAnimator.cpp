@@ -6,7 +6,8 @@
 //*** INCLUDE HEADERS ***
 
 //#include "Hogehoge.hpp"
-#include "node/KeepDistanceNode.hpp"
+//#include "node/KeepDistanceNode.hpp"
+#include "command/SortVertexID.hpp"
 
 //***********************
 
@@ -38,6 +39,7 @@ std::vector<CommandPair> getCommands(void) {
 	//コマンドをここに追加
 	//CommandPair("コマンド名", [クリエイター関数のポインタ]),
 	return std::vector<CommandPair> {
+		CommandPair("CMAsortVertexID", cma::SortVertexID::creator),
 		//CommandPair("Hogehoge", cma::Hogehoge::creator),
 	};
 }
@@ -48,7 +50,7 @@ std::vector<NodePair> getNodes(void) {
 	//NodePair("ノード名", [Node ID], [クリエイター関数のポインタ], [initialize関数のポインタ]),
 	return std::vector<NodePair> {
 		//NodePair("Hogehoge", cma::Hogehoge::HogehogeID, cma::Hogehoge::creator, cma::Hogehoge::initialize),
-		NodePair("KeepDistance", cma::KeepDistanceNode::id, cma::KeepDistanceNode::creator, cma::KeepDistanceNode::initialize)
+		//NodePair("KeepDistance", cma::KeepDistanceNode::id, cma::KeepDistanceNode::creator, cma::KeepDistanceNode::initialize)
 	};
 }
 
