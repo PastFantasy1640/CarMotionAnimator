@@ -24,12 +24,12 @@ namespace cma {
 /** initializePlugin
  * プラグインの初期化処理を行う。maya側からコールされる関数。
  */
-MStatus initializePlugin(MObject _obj);
+extern MStatus initializePlugin(MObject _obj);
 
 /** uninitializePlugin
  * プラグインのアンロード処理を行う。maya側からコールされる関数。
  */
-MStatus uninitializePlugin(MObject _obj);
+extern MStatus uninitializePlugin(MObject _obj);
 
 };
 
