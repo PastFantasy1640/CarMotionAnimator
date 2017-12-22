@@ -1,7 +1,8 @@
 #include "CarMotionAnimator.hpp"
 #include <vector>
 #include <string>
-
+#include <maya/MStringArray.h>
+#include <maya/MGlobal.h>
 
 //*** INCLUDE HEADERS ***
 
@@ -149,6 +150,11 @@ MStatus cma::initializePlugin(MObject _obj) {
 		if ((stat = addNodes(plugin)) != MStatus::kSuccess) break;
 
 	} while (false);
+	
+	MGlobal::executeCommand("cmaMenuUI(\"CarMotionAnimator\")", true);
+	//plugin.addMenuItem("CarMotionAnimator","MayaWindow","", "");
+	//plugin.re
+	//plugin.addMenuItem("sortVertexID", "MayaWindow|mainWindowMenu|CarMotionAnimator", "CMAsortVertexID", "");
 
 	if (stat == MStatus::kSuccess) {
 		//ì«Ç›çûÇ›äÆóπ
@@ -164,6 +170,7 @@ MStatus cma::initializePlugin(MObject _obj) {
 		//ì«Ç›çûÇ›é∏îs
 		std::cerr << "Failed to initialize plugin." << std::endl;
 	}
+
 	return stat;
 }
 
@@ -178,5 +185,8 @@ MStatus cma::uninitializePlugin(MObject _obj) {
 		if ((stat = removeCommands(plugin)) != MStatus::kSuccess) break;
 		if ((stat = removeNodes(plugin)) != MStatus::kSuccess) break;
 	} while (false);
+	
+	MGlobal::executeCommand("cmaDeleteUI");
+
 	return stat;
 }
