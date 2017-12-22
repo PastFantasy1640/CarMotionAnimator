@@ -37,7 +37,11 @@ MStatus cma::KeepDistanceNode::initialize(void) {
 	inMesh_attr.setStorable(false);
 	inMesh_attr.setReadable(false);
 	//inMesh_attr.setHidden(true);
+	inMesh_attr.setChannelBox(false);
 	stat = addAttribute(inMesh);
+	
+	
+	
 
 	return MStatus::kSuccess;
 }
