@@ -40,7 +40,7 @@ std::vector<CommandPair> getCommands(void) {
 	//コマンドをここに追加
 	//CommandPair("コマンド名", [クリエイター関数のポインタ]),
 	return std::vector<CommandPair> {
-		CommandPair("CMAsortVertexID", cma::SortVertexID::creator),
+		CommandPair("cma_sortVertexID", cma::SortVertexID::creator),
 		//CommandPair("Hogehoge", cma::Hogehoge::creator),
 	};
 }
@@ -151,10 +151,8 @@ MStatus cma::initializePlugin(MObject _obj) {
 
 	} while (false);
 	
-	MGlobal::executeCommand("cmaMenuUI(\"CarMotionAnimator\")", true);
-	//plugin.addMenuItem("CarMotionAnimator","MayaWindow","", "");
-	//plugin.re
-	//plugin.addMenuItem("sortVertexID", "MayaWindow|mainWindowMenu|CarMotionAnimator", "CMAsortVertexID", "");
+	//メニューの追加
+	MGlobal::executeCommand("cma_MenuUI(\"CarMotionAnimator\")", true);
 
 	if (stat == MStatus::kSuccess) {
 		//読み込み完了
@@ -186,7 +184,7 @@ MStatus cma::uninitializePlugin(MObject _obj) {
 		if ((stat = removeNodes(plugin)) != MStatus::kSuccess) break;
 	} while (false);
 	
-	MGlobal::executeCommand("cmaDeleteUI");
+	MGlobal::executeCommand("cma_DeleteUI");
 
 	return stat;
 }
