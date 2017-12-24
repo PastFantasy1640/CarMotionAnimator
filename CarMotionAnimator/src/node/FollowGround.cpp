@@ -1,8 +1,9 @@
 #include "FollowGround.hpp"
+#include "exception/MStatusException.hpp"
 
 const MTypeId cma::FollowGround::id(cma::FollowGround::kFollowGroundID);
 MObject cma::FollowGround::inMesh;
-MObject cma::FollowGround::inVector;
+MObject cma::FollowGround::rayVector;
 MObject cma::FollowGround::outPoint;
 
 ////////////////////////////////////////
@@ -29,12 +30,18 @@ void * cma::FollowGround::creator(void) {
 // initialize
 ////////////////////////////////////////
 MStatus cma::FollowGround::initialize(void) {
-	MStatus stat;
 
 	//アトリビュートの追加
-	_addAttr_inMesh();
-	_addAttr_inVector();	
-
+	try {
+		_addAttr_outPoint();
+		_addAttr_inMesh();
+		_addAttr_rayVector();
+	}
+	catch (const MStatusException & e) {
+		std::cerr << e.toString() << std::endl;
+		return e.stat;
+	}
+	
 	return MStatus::kSuccess;
 }
 

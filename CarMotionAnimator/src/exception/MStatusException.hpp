@@ -43,7 +43,7 @@ public:
 	/**
 	 * デクストラクタ。
 	 */
-	~MStatusException();
+	virtual ~MStatusException();
 
 	/**
 	 * 成形されたエラーメッセージを取得する
@@ -56,13 +56,14 @@ public:
 	 * @param stat エラーのステータス
 	 * @param message メッセージ
 	 * @param place 発生個所を特定できる文字列
+	 * @throws MStatusException ステータスがkSuccess以外だった場合
 	 */
 	static void throwIfError(const MStatus & stat, const MString & message, const MString & place = "<unlogged>");
 
 protected:
 
 private:
-
+	MStatusException() = delete;
 };
 
 };

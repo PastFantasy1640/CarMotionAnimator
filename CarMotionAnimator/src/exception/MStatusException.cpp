@@ -27,6 +27,6 @@ MString cma::MStatusException::toString(void) const {
 }
 
 void cma::MStatusException::throwIfError(const MStatus & stat, const MString & message, const MString & place) {
-	if (!stat) throw MStatusException(stat, message, place);
+	if (stat.error()) throw MStatusException(stat, message, place);
 }
 

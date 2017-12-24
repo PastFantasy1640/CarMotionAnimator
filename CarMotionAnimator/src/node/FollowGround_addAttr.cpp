@@ -2,6 +2,7 @@
 #include <maya/MFnTypedAttribute.h>
 #include <maya/MFnNumericAttribute.h>
 #include <maya/MVector.h>
+#include "exception/MStatusException.hpp"
 
 ////////////////////////////////////////
 // _addAttr_inMesh
@@ -9,9 +10,8 @@
 void cma::FollowGround::_addAttr_inMesh(void) {
 	MStatus stat;
 	MFnTypedAttribute inMesh_attr;
-
 	inMesh = inMesh_attr.create("inMesh", "i", MFnData::kMesh, &stat);
-	if (stat != MStatus::kSuccess) throw stat;
+	MStatusException::throwIfError(stat, "inMeshアトリビュートの生成に失敗しました", "FollowGround::_addAttr_inMesh");
 
 	inMesh_attr.setWritable(true);
 	inMesh_attr.setReadable(false);
@@ -19,33 +19,59 @@ void cma::FollowGround::_addAttr_inMesh(void) {
 	inMesh_attr.setConnectable(true);
 	inMesh_attr.setInternal(false);
 	inMesh_attr.setChannelBox(false);
+	inMesh_attr.addToCategory("Node Behaving");
 	
-	if((stat = addAttribute(inMesh)) != MStatus::kSuccess) throw stat;
+	stat = addAttribute(inMesh);
+	MStatusException::throwIfError(stat, "inMeshアトリビュートの追加に失敗しました", "FollowGround::_addAttr_inMesh");
 	
 	stat = attributeAffects(inMesh, outPoint);
-    if ( stat != MS::kSuccess ) throw stat;
+	MStatusException::throwIfError(stat, "inMeshアトリビュートにおいて、アトリビュート影響の登録に失敗しました", "FollowGround::_addAttr_inMesh");
 }
 
 
 ////////////////////////////////////////
 // _addAttr_inVector
 ////////////////////////////////////////
-void cma::FollowGround::_addAttr_inVector(void){
+void cma::FollowGround::_addAttr_rayVector(void){
 	MStatus stat;
-	MFnNumericAttribute inVector_attr;
-	inVector = inVector_attr.createPoint("rayVector", "ray", &stat);
-	if (stat != MStatus::kSuccess) throw stat;
+	MFnNumericAttribute rayVector_attr;
+	rayVector = rayVector_attr.createPoint("rayVector", "ray", &stat);
+	MStatusException::throwIfError(stat, "rayVectorアトリビュートの生成に失敗しました", "FollowGround::_addAttr_rayVector");
 
-	inVector_attr.setWritable(true);
-	inVector_attr.setReadable(false);
-	inVector_attr.setStorable(false);
-	inVector_attr.setConnectable(true);
-	inVector_attr.setInternal(false);
-	inVector_attr.setChannelBox(true);	
-	inVector_attr.setDefault(1.0, 0.0, 0.0);
+	rayVector_attr.setWritable(true);
+	rayVector_attr.setReadable(false);
+	rayVector_attr.setStorable(false);
+	rayVector_attr.setConnectable(true);
+	rayVector_attr.setInternal(false);
+	rayVector_attr.setChannelBox(true);	
+	rayVector_attr.setDefault(1.0, 0.0, 0.0);
+	rayVector_attr.addToCategory("Ray Attribute");
 
-	if((stat = addAttribute(inVector)) != MStatus::kSuccess) throw stat;
-	
-	stat = attributeAffects(inVector, outPoint);
-    if ( stat != MS::kSuccess ) throw stat;
+	stat = addAttribute(rayVector);
+	MStatusException::throwIfError(stat, "rayVectorアトリビュートの追加に失敗しました", "FollowGround::_addAttr_rayVector");
+
+	stat = attributeAffects(rayVector, outPoint);
+	MStatusException::throwIfError(stat, "rayVectorアトリビュートにおいて、アトリビュート影響の登録に失敗しました", "FollowGround::_addAttr_rayVector");
+}
+
+
+////////////////////////////////////////
+// _addAttr_outPoint
+////////////////////////////////////////
+void cma::FollowGround::_addAttr_outPoint(void) {
+	MStatus stat;
+	MFnNumericAttribute outPoint_attr;
+	outPoint = outPoint_attr.createPoint("outPoint", "point", &stat);
+	MStatusException::throwIfError(stat, "rayVectorアトリビュートの生成に失敗しました", "FollowGround::_addAttr_outPoint");
+
+	outPoint_attr.setWritable(false);
+	outPoint_attr.setReadable(true);
+	outPoint_attr.setStorable(true);
+	outPoint_attr.setConnectable(true);
+	outPoint_attr.setInternal(false);
+	outPoint_attr.setChannelBox(true);	
+	outPoint_attr.setDefault(0.0, 0.0, 0.0);
+
+	stat = addAttribute(outPoint);
+	MStatusException::throwIfError(stat, "rayVectorアトリビュートの追加に失敗しました", "FollowGround::_addAttr_outPoint");
 }

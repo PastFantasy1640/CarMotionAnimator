@@ -36,7 +36,7 @@ public:
 	//////////////////////////////
 	static MObject inMesh;
 	static MObject outPoint;
-	static MObject inVector;
+	static MObject rayVector;
 
 	static const MTypeId id;	//ID
 	
@@ -77,12 +77,18 @@ private:
 	 * @throws MStatus ステータスがkSuccess以外の時
 	 */
 	static void _addAttr_inMesh(void);
-
+	
 	/**
 	 * inVectorのアトリビュート追加
 	 * @throws MStatus ステータスがkSuccess以外の時
 	 */
-	static void _addAttr_inVector(void);
+	static void _addAttr_rayVector(void);
+
+	/**
+	 * outPointのアトリビュート追加
+	 * @throws MStatus ステータスがkSuccess以外の時
+	 */
+	static void _addAttr_outPoint(void);
 
 };
 
