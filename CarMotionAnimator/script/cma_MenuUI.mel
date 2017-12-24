@@ -1,0 +1,32 @@
+/////////////////////////////////////////////////////
+//cmaMenuUI.mel
+//
+//Copyright (c) 2017 Shotaro Shirao
+//
+//This software is released under the MIT License.
+//http://opensource.org/licenses/mit-license.php
+/////////////////////////////////////////////////////
+
+global string $g_cmaMenu = "";	//メインのCMAメニュー識別子
+global string $g_cmaSortVertex = ""; //頂点ソートのメニュー識別子
+
+global proc cma_MenuUI(string $menuName){
+    global string $g_cmaMenu;
+    global string $gMainWindow;
+
+
+	if(`menu -exists ($g_cmaMenu)`) return;
+
+	//メニューバー登録
+	$g_cmaMenu = `menu -label $menuName -tearOff true -parent ($gMainWindow) mainCmaMenu`;
+	$g_cmaSortVertex = `menuItem -label "頂点IDをソートする" -parent $g_cmaMenu -command cma_sortVertexID sortVertex`;
+
+}
+
+global proc cma_DeleteUI(){
+	global string $g_cmaMenu;
+
+	if($g_cmaMenu != ""){
+		if(`menu -exists ($g_cmaMenu)`) deleteUI -menu $g_cmaMenu;
+	}
+}
