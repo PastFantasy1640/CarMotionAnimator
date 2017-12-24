@@ -1,27 +1,27 @@
-#include "KeepDistanceNode.hpp"
+#include "FollowGround.hpp"
 
 #include "maya/MFnTypedAttribute.h"
 
-const MTypeId cma::KeepDistanceNode::id(cma::KeepDistanceNode::kKeepDistanceNodeID);
-MObject cma::KeepDistanceNode::inMesh;
+const MTypeId cma::FollowGround::id(cma::FollowGround::kFollowGroundID);
+MObject cma::FollowGround::inMesh;
 
 
 /** コンストラクタ
  */
-cma::KeepDistanceNode::KeepDistanceNode() {}
+cma::FollowGround::FollowGround() {}
 
 
 /** デクストラクタ
  */
-cma::KeepDistanceNode::~KeepDistanceNode() {}
+cma::FollowGround::~FollowGround() {}
 
 
 /** creator
  * インスタンスの新規生成関数
  * @returns 新しいインスタンス
  */
-void * cma::KeepDistanceNode::creator(void) {
-	return new KeepDistanceNode;
+void * cma::FollowGround::creator(void) {
+	return new FollowGround;
 }
 
 
@@ -29,7 +29,7 @@ void * cma::KeepDistanceNode::creator(void) {
  * 初期化関数
  * @returns ステータス結果
  */
-MStatus cma::KeepDistanceNode::initialize(void) {
+MStatus cma::FollowGround::initialize(void) {
 	MFnTypedAttribute inMesh_attr;
 	MStatus stat;
 
@@ -46,7 +46,7 @@ MStatus cma::KeepDistanceNode::initialize(void) {
 	return MStatus::kSuccess;
 }
 
-MStatus cma::KeepDistanceNode::compute(const MPlug & plug, MDataBlock & data) {
+MStatus cma::FollowGround::compute(const MPlug & plug, MDataBlock & data) {
 
 	if (plug == inMesh) {
 		std::cout << "inmesh compute" << std::endl;

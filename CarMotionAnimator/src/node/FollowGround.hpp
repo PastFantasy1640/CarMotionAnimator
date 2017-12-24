@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////
-//KeepDistanceNode.hpp
+//FollowGround.hpp
 //
 //Copyright (c) 2017 Shotaro Shirao
 //
@@ -8,8 +8,8 @@
 /////////////////////////////////////////////////////
 
 #pragma once
-#ifndef CMA_KEEPDISTANCENODE_HPP_
-#define CMA_KEEPDISTANCENODE_HPP_
+#ifndef CMA_FOLLOWGROUND_HPP_
+#define CMA_FOLLOWGROUND_HPP_
 
 #include <maya/MString.h>
 #include <maya/MPxNode.h>
@@ -21,15 +21,15 @@
 
 namespace cma {
 
-/** KeepDistanceNode CLASS
+/** FollowGround CLASS
  * ê‡ñæ
  */
-class KeepDistanceNode : public MPxNode{
+class FollowGround : public MPxNode{
 public:
 	//////////////////////////////
 	// PUBLIC MEMBER CONSTANT
 	//////////////////////////////
-	enum { kKeepDistanceNodeID = 0x70000 };
+	enum { kFollowGroundID = 0x70000 };
 
 	//////////////////////////////
 	// PUBLIC MEMBER VALIABLES
@@ -44,11 +44,11 @@ public:
 
 	/** Constructor
 	 */	
-	KeepDistanceNode();
+	FollowGround();
 
 	/** Destructor
 	 */
-	virtual ~KeepDistanceNode();
+	virtual ~FollowGround();
 
 	/** compute
 	 * åvéZèàóùïîï™ÅBãóó£Çë™Ç¡Çƒï®ëÃÇà⁄ìÆÇ≥ÇπÇÈ
