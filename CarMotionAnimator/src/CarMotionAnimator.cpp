@@ -50,7 +50,7 @@ std::vector<NodePair> getNodes(void) {
 	//NodePair("ノード名", [Node ID], [クリエイター関数のポインタ], [initialize関数のポインタ]),
 	return std::vector<NodePair> {
 		//NodePair("Hogehoge", cma::Hogehoge::HogehogeID, cma::Hogehoge::creator, cma::Hogehoge::initialize),
-		NodePair("KeepDistance", cma::FollowGround::id, cma::FollowGround::creator, cma::FollowGround::initialize)
+		NodePair("FollowGround", cma::FollowGround::id, cma::FollowGround::creator, cma::FollowGround::initialize)
 	};
 }
 
