@@ -1,12 +1,14 @@
 #include "CarMotionAnimator.hpp"
 #include <vector>
 #include <string>
-
+#include <maya/MStringArray.h>
+#include <maya/MGlobal.h>
 
 //*** INCLUDE HEADERS ***
 
 //#include "Hogehoge.hpp"
-#include "node/KeepDistanceNode.hpp"
+//#include "node/KeepDistanceNode.hpp"
+#include "command/SortVertexID.hpp"
 
 //***********************
 
@@ -38,6 +40,7 @@ std::vector<CommandPair> getCommands(void) {
 	//コマンドをここに追加
 	//CommandPair("コマンド名", [クリエイター関数のポインタ]),
 	return std::vector<CommandPair> {
+		CommandPair("cma_sortVertexID", cma::SortVertexID::creator),
 		//CommandPair("Hogehoge", cma::Hogehoge::creator),
 	};
 }
@@ -48,7 +51,7 @@ std::vector<NodePair> getNodes(void) {
 	//NodePair("ノード名", [Node ID], [クリエイター関数のポインタ], [initialize関数のポインタ]),
 	return std::vector<NodePair> {
 		//NodePair("Hogehoge", cma::Hogehoge::HogehogeID, cma::Hogehoge::creator, cma::Hogehoge::initialize),
-		NodePair("KeepDistance", cma::KeepDistanceNode::id, cma::KeepDistanceNode::creator, cma::KeepDistanceNode::initialize)
+		//NodePair("KeepDistance", cma::KeepDistanceNode::id, cma::KeepDistanceNode::creator, cma::KeepDistanceNode::initialize)
 	};
 }
 
@@ -147,6 +150,9 @@ MStatus cma::initializePlugin(MObject _obj) {
 		if ((stat = addNodes(plugin)) != MStatus::kSuccess) break;
 
 	} while (false);
+	
+	//メニューの追加
+	MGlobal::executeCommand("cma_MenuUI(\"CarMotionAnimator\")", true);
 
 	if (stat == MStatus::kSuccess) {
 		//読み込み完了
@@ -162,6 +168,7 @@ MStatus cma::initializePlugin(MObject _obj) {
 		//読み込み失敗
 		std::cerr << "Failed to initialize plugin." << std::endl;
 	}
+
 	return stat;
 }
 
@@ -176,5 +183,8 @@ MStatus cma::uninitializePlugin(MObject _obj) {
 		if ((stat = removeCommands(plugin)) != MStatus::kSuccess) break;
 		if ((stat = removeNodes(plugin)) != MStatus::kSuccess) break;
 	} while (false);
+	
+	MGlobal::executeCommand("cma_DeleteUI");
+
 	return stat;
 }
