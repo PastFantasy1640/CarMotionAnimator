@@ -49,7 +49,15 @@ public:
 	 * 成形されたエラーメッセージを取得する
 	 * @return エラーメッセージ
 	 */
-	MStatus toString(void) const;
+	MString toString(void) const;
+
+	/**
+	 * もしもステータスがkSuccess以外の時に、MStatusExceptionをスローするユーティリティー関数
+	 * @param stat エラーのステータス
+	 * @param message メッセージ
+	 * @param place 発生個所を特定できる文字列
+	 */
+	static void throwIfError(const MStatus & stat, const MString & message, const MString & place = "<unlogged>");
 
 protected:
 
