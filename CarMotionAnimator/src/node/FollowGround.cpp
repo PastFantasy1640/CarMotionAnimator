@@ -1,51 +1,47 @@
 #include "FollowGround.hpp"
 
-#include "maya/MFnTypedAttribute.h"
-
 const MTypeId cma::FollowGround::id(cma::FollowGround::kFollowGroundID);
 MObject cma::FollowGround::inMesh;
+MObject cma::FollowGround::inVector;
+MObject cma::FollowGround::outPoint;
 
-
-/** コンストラクタ
- */
+////////////////////////////////////////
+// FollowGround
+////////////////////////////////////////
 cma::FollowGround::FollowGround() {}
 
 
-/** デクストラクタ
- */
+////////////////////////////////////////
+// ~FollowGround
+////////////////////////////////////////
 cma::FollowGround::~FollowGround() {}
 
 
-/** creator
- * インスタンスの新規生成関数
- * @returns 新しいインスタンス
- */
+////////////////////////////////////////
+// creator
+////////////////////////////////////////
 void * cma::FollowGround::creator(void) {
 	return new FollowGround;
 }
 
 
-/** initialize
- * 初期化関数
- * @returns ステータス結果
- */
+////////////////////////////////////////
+// initialize
+////////////////////////////////////////
 MStatus cma::FollowGround::initialize(void) {
-	MFnTypedAttribute inMesh_attr;
 	MStatus stat;
 
-	inMesh = inMesh_attr.create("inMesh", "i", MFnData::kMesh);
-	inMesh_attr.setStorable(false);
-	inMesh_attr.setReadable(false);
-	//inMesh_attr.setHidden(true);
-	inMesh_attr.setChannelBox(false);
-	stat = addAttribute(inMesh);
-	
-	
-	
+	//アトリビュートの追加
+	_addAttr_inMesh();
+	_addAttr_inVector();	
 
 	return MStatus::kSuccess;
 }
 
+
+////////////////////////////////////////
+// compute
+////////////////////////////////////////
 MStatus cma::FollowGround::compute(const MPlug & plug, MDataBlock & data) {
 
 	if (plug == inMesh) {
@@ -66,3 +62,4 @@ MStatus cma::FollowGround::compute(const MPlug & plug, MDataBlock & data) {
 	*/
 	return MStatus::kSuccess;
 }
+

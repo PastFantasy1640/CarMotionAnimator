@@ -35,6 +35,8 @@ public:
 	// PUBLIC MEMBER VALIABLES
 	//////////////////////////////
 	static MObject inMesh;
+	static MObject outPoint;
+	static MObject inVector;
 
 	static const MTypeId id;	//ID
 	
@@ -50,18 +52,18 @@ public:
 	 */
 	virtual ~FollowGround();
 
-	/** compute
+	/**
 	 * 計算処理部分。距離を測って物体を移動させる
 	 */
 	virtual MStatus compute(const MPlug & plug, MDataBlock & data) override;
 
-	/** creator
+	/**
 	 * 新しいインスタンスの生成関数。mayaからコールされる。
 	 * @returns 新しいインスタンスのnewポインタ
 	 */
 	static void * creator(void);
 
-	/** initialize
+	/**
 	 * ノード登録時に呼ばれる関数
 	 */
 	static MStatus initialize(void);
@@ -69,6 +71,18 @@ public:
 protected:
 
 private:
+
+	/**
+	 * inMeshのアトリビュート追加
+	 * @throws MStatus ステータスがkSuccess以外の時
+	 */
+	static void _addAttr_inMesh(void);
+
+	/**
+	 * inVectorのアトリビュート追加
+	 * @throws MStatus ステータスがkSuccess以外の時
+	 */
+	static void _addAttr_inVector(void);
 
 };
 
