@@ -1,3 +1,4 @@
+#pragma comment(user, "CarMotionAnimator Plug-in Header")
 /////////////////////////////////////////////////////
 //FollowGround.hpp
 //
