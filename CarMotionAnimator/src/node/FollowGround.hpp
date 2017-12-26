@@ -21,8 +21,11 @@
 
 namespace cma {
 
-/** FollowGround CLASS
- * 説明
+/**
+ * これはクラスの説明
+ * @version 1.0
+ * @author Shirao Shotaro
+ * @see MPxNode http://download.autodesk.com/us/maya/2011help/api/class_m_px_node.html
  */
 class FollowGround : public MPxNode{
 public:
@@ -54,12 +57,14 @@ public:
 
 	/**
 	 * 計算処理部分。距離を測って物体を移動させる
+	 * @param plug プラグ
+	 * @param data データ
 	 */
 	virtual MStatus compute(const MPlug & plug, MDataBlock & data) override;
 
 	/**
 	 * 新しいインスタンスの生成関数。mayaからコールされる。
-	 * @returns 新しいインスタンスのnewポインタ
+	 * @return 新しいインスタンスのnewポインタ
 	 */
 	static void * creator(void);
 
