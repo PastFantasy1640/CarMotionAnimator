@@ -18,6 +18,7 @@
 #include <maya/MPlug.h>
 #include <maya/MDataBlock.h>
 #include <maya/MDataHandle.h>
+#include <utility/Vector.hpp>
 
 
 namespace cma {
@@ -102,7 +103,7 @@ public:
 protected:
 
 private:
-
+	
 	/**
 	 * inMeshのアトリビュート追加
 	 * @throws MStatusException ステータスがkSuccess以外の時に、詳細を含めて例外を投げる
@@ -150,7 +151,18 @@ private:
 	 * @see cma::MStatusException
 	 */
 	static void _setOutputValue(MDataBlock & data, const float x, const float y, const float z);
-
+	
+	/** 
+	 * フェースを取得し、それぞれのフェースとの距離を求める。
+	 * @param ground グラウンドのオブジェクト
+	 * @param ray_point レイ始点のポイント
+	 * @param ray_vector レイのベクトル
+	 * @param is_cross 交わったかどうかを格納する
+	 * @param max_distance 最大距離
+	 * @throws MStatusException 実行中にkSuccess以外のエラーが発生した場合
+	 * @return 距離
+	 */
+	static double _getLengthToCrossPoint(const MObject & ground, const VectorF ray_point, const VectorF ray_vector, bool * is_cross = nullptr, const double max_distance = 100000.0);
 };
 
 };

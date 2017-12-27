@@ -14,7 +14,7 @@ void cma::FollowGround::_addAttr_inMesh(void) {
 	MStatusException::throwIfError(stat, "inMeshアトリビュートの生成に失敗しました", "FollowGround::_addAttr_inMesh");
 
 	inMesh_attr.setWritable(true);
-	inMesh_attr.setReadable(false);
+	inMesh_attr.setReadable(true);
 	inMesh_attr.setStorable(false);
 	inMesh_attr.setConnectable(true);
 	inMesh_attr.setInternal(false);
@@ -39,7 +39,7 @@ void cma::FollowGround::_addAttr_rayVector(void){
 	MStatusException::throwIfError(stat, "rayVectorアトリビュートの生成に失敗しました", "FollowGround::_addAttr_rayVector");
 
 	rayVector_attr.setWritable(true);
-	rayVector_attr.setReadable(false);
+	rayVector_attr.setReadable(true);
 	rayVector_attr.setStorable(false);
 	rayVector_attr.setConnectable(true);
 	rayVector_attr.setInternal(false);
@@ -83,7 +83,7 @@ void cma::FollowGround::_addAttr_rayPoint(void) {
 	MStatusException::throwIfError(stat, "rayPointアトリビュートの生成に失敗しました", "FollowGround::_addAttr_rayPoint");
 
 	rayPoint_attr.setWritable(true);
-	rayPoint_attr.setReadable(false);
+	rayPoint_attr.setReadable(true);
 	rayPoint_attr.setStorable(false);
 	rayPoint_attr.setConnectable(true);
 	rayPoint_attr.setInternal(false);
