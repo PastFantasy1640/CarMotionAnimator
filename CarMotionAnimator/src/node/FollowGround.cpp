@@ -110,10 +110,13 @@ double cma::FollowGround::_getLengthToCrossPoint(const MObject & ground, const V
 	MPointArray points;
 	MIntArray vertexes;
 	int triangle_num;
-	constexpr double epsilon = 0.00001;
-	auto isEqual = [epsilon](double a, double b) -> bool {
-		return (epsilon > (a - b) && -epsilon < (a - b));
-	};
+	bool is_cross_current;
+	double length = 0.0;
+	
+	std::cout << std::endl;
+	std::cout << "ray point" << ray_point.toString() << std::endl;
+	std::cout << "ray vector" << ray_vector.toString() << std::endl;
+	std::cout << "face num : " << face_iter.count() << std::endl;
 
 	for (; !face_iter.isDone(); face_iter.next()) {
 		//三角面の数を取得
@@ -126,14 +129,58 @@ double cma::FollowGround::_getLengthToCrossPoint(const MObject & ground, const V
 			MStatusException::throwIfError(ret, "三角フェースデータの取得に失敗", "cma::FollowGround::_getLengthToCrossPoint");
 			
 			//チェック関数
-			//check()
+			length = _checkHitPolygon(points, ray_point, ray_vector, &is_cross_current, max_distance);
 
-
+			//デバッグ
+			if(is_cross_current) std::cout << "CROSS!! distance => " << length << std::endl;
 		}
 
 	}
 
 	return 0.0;
+}
+
+double cma::FollowGround::_checkHitPolygon(const MPointArray & points, const VectorF ray_point, const VectorF ray_vector, bool * is_cross, const double max_distance) {
+
+	//頂点数が3固定
+	if (points.length() != 3) throw MStatusException(MStatus::kInvalidParameter, "三角面になっていない", "cma::FollowGround::_checkHitPolygon");
+
+	double ret = max_distance;
+	if (is_cross != nullptr) *is_cross = false;
+
+	VectorD edge1(points[1] - points[0]);
+	VectorD edge2(points[2] - points[0]);
+	std::cout << "edge1" << edge1.toString() << std::endl;
+	std::cout << "edge2" << edge2.toString() << std::endl;
+
+	constexpr double epsilon = 0.00001;
+	auto isEqual = [epsilon](double a, double b) -> bool {
+		return (epsilon > (a - b) && -epsilon < (a - b));
+	};
+	
+	VectorD ray(ray_vector);
+	VectorD inv_ray(ray_vector.inv());
+	
+	double denominator = VectorD::det(edge1, edge2, inv_ray);
+	
+	if (!isEqual(denominator, 0.0)) {
+		//レイが平面と平行ではない
+		VectorD d = ray_point - VectorD(points[0]);
+		double u = VectorD::det(d, edge2, inv_ray) / denominator;
+
+		if ((0 <= u) && (u <= 1)) {
+			double v = VectorD::det(edge1, d, inv_ray) / denominator;
+			if ((0 <= v) && (u + v <= 1.0)) {
+				double t = VectorD::det(edge1, edge2, d) / denominator;
+				if (t >= 0 && t <= max_distance) {
+					ret = t;
+					if (is_cross != nullptr) *is_cross = true;
+				}
+			}
+		}
+	}
+
+	return ret;
 }
 
 /*

@@ -12,7 +12,11 @@
 #define CMA_VECTOR_HPP_
 
 #include <cmath>
+#include <string>
+#include <iostream>
 #include <maya/MTypes.h>
+#include <maya/MPoint.h>
+#include <maya/MVector.h>
 
 namespace cma {
 
@@ -33,15 +37,29 @@ public:
 
 	/** デフォルトコンストラクタ
 	 */	
-	Vector() : x(static_cast<T>(0.0)), y(static_cast<T>(0.0)), z(static_cast<T>(0.0)) {}
+	Vector()
+		: x(static_cast<T>(0.0)), y(static_cast<T>(0.0)), z(static_cast<T>(0.0)) {}
 
 	/** パラメータコンストラクタ
 	 */
-	Vector(const T x, const T y, const T z) : x(x), y(y), z(z) {}
-
+	Vector(const T x, const T y, const T z)
+		: x(x), y(y), z(z) {}
+	
 	/** キャスト的コンストラクタ
 	 */
 	template <typename N> Vector(const N & cast);
+
+	/** Vectorキャストコンストラクタ
+	 */
+	template <typename N> Vector(const Vector<N> & cast);
+	
+	/** MPointからのコンストラクタ
+	 */
+	Vector(MPoint m_point);
+
+	/** MVectorからのコンストラクタ
+	 */
+	Vector(MVector m_vector);
 
 	/** デストラクタ
 	 */
@@ -52,6 +70,40 @@ public:
 	 * @return ベクトルの長さ
 	 */
 	template <typename N> N length(void) const;
+
+	/**
+	 * 逆向きのベクトルを取得する
+	 * @return 逆向きベクトル
+	 */
+	Vector<T> inv(void) const;
+	
+	/**
+	 * ベクトル同士の加算処理
+	 * @param v 加算するベクトル
+	 * @return 加算後のベクトル
+	 */
+	Vector<T> operator+(const Vector<T> & v) const;
+
+	/**
+	 * ベクトル同士の減算処理
+	 * @param v 減算するベクトル
+	 * @return 減算後のベクトル
+	 */
+	Vector<T> operator-(const Vector<T> & v) const;
+
+	/** 表示用文字列に変換
+	 * @return 文字列
+	 */
+	std::string toString(void) const;
+
+	/**
+	 * 外積を求める
+	 * @param v1 ベクトル1
+	 * @param v2 ベクトル2
+	 * @param v3 ベクトル3
+	 * @return 外積
+	 */
+	static T det(const Vector<T> & v1, const Vector<T> & v2, const Vector<T> & v3);
 
 protected:
 
@@ -80,6 +132,14 @@ inline cma::Vector<int>::Vector(const int3 & cast) {
 
 template<typename T>
 template<typename N>
+inline cma::Vector<T>::Vector(const Vector<N> & cast) {
+	this->x = static_cast<T>(cast.x);
+	this->y = static_cast<T>(cast.y);
+	this->z = static_cast<T>(cast.z);
+}
+
+template<typename T>
+template<typename N>
 inline N Vector<T>::length(void) const {
 	return static_cast<N>(
 		std::sqrt(
@@ -93,6 +153,54 @@ inline N Vector<T>::length(void) const {
 typedef Vector<double> VectorD;
 typedef Vector<float> VectorF;
 typedef Vector<int> VectorI;
+
+template<typename T>
+inline Vector<T>::Vector(MPoint m_point) {
+	m_point.cartesianize();
+	this->x = static_cast<T>(m_point.x);
+	this->y = static_cast<T>(m_point.y);
+	this->z = static_cast<T>(m_point.z);
+}
+
+template<typename T>
+inline Vector<T>::Vector(MVector m_vector) {
+	this->x = static_cast<T>(m_vector.x);
+	this->y = static_cast<T>(m_vector.y);
+	this->z = static_cast<T>(m_vector.z);
+}
+
+template<typename T>
+inline Vector<T> Vector<T>::inv(void) const {
+	return Vector<T>(-this->x, -this->y, -this->z);
+}
+
+template<typename T>
+inline Vector<T> Vector<T>::operator+(const Vector<T>& v) const {
+	return Vector<T>(this->x + v.x, this->y + v.y, this->z + v.z);
+}
+
+template<typename T>
+inline Vector<T> Vector<T>::operator-(const Vector<T>& v) const {
+	return Vector<T>(this->x - v.x, this->y - v.y, this->z - v.z);
+}
+
+template<typename T>
+inline std::string Vector<T>::toString(void) const {
+	return std::string("(x, y, z) = (" + 
+		std::to_string(this->x) + ", " +
+		std::to_string(this->y) + ", " +
+		std::to_string(this->z) + ")");
+}
+
+template<typename T>
+inline T Vector<T>::det(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3) {
+	return ((v1.x * v2.y * v3.z)
+          + (v1.y * v2.z * v3.x)
+          + (v1.z * v2.x * v3.y)
+          - (v1.x * v2.z * v3.y)
+          - (v1.y * v2.x * v3.z)
+          - (v1.z * v2.y * v3.x));
+}
 
 };
 
