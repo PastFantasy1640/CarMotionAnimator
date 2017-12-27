@@ -26,9 +26,7 @@ namespace cma {
  * FollowGroundノードクラス
  * 始点からのベクトルレイと、地面との交点座標を算出するノード
  * @version 1.0
- * @since 1.0
  * @author Shirao Shotaro
- * @deprecated これはテストです。
  * @see MPxNode http://download.autodesk.com/us/maya/2011help/api/class_m_px_node.html
  */
 class FollowGround : public MPxNode{
@@ -84,8 +82,7 @@ public:
 	 * @return 計算に成功した場合kSuccessを返す
 	 * @see MPxNode::compute http://download.autodesk.com/us/maya/2011help/api/class_m_px_node.html#3dd5454e3fa92598836018ae9ab220c3
 	 */
-	virtual MStatus compute(const MPlug & plug,
-							MDataBlock & data) override;
+	virtual MStatus compute(const MPlug & plug,	MDataBlock & data) override;
 
 	/**
 	 * 新しいインスタンスの生成関数
