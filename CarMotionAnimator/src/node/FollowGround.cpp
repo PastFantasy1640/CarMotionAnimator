@@ -10,13 +10,13 @@ MObject cma::FollowGround::outPoint;
 ////////////////////////////////////////
 // FollowGround
 ////////////////////////////////////////
-cma::FollowGround::FollowGround() {}
+cma::FollowGround::FollowGround() { std::cout << "constructor" << std::endl; }
 
 
 ////////////////////////////////////////
 // ~FollowGround
 ////////////////////////////////////////
-cma::FollowGround::~FollowGround() {}
+cma::FollowGround::~FollowGround() {std::cout << "destructor" << std::endl;}
 
 
 ////////////////////////////////////////
@@ -52,23 +52,38 @@ MStatus cma::FollowGround::initialize(void) {
 // compute
 ////////////////////////////////////////
 MStatus cma::FollowGround::compute(const MPlug & plug, MDataBlock & data) {
+	MStatus ret;
+	
+	try {
 
-	if (plug == inMesh) {
-		std::cout << "inmesh compute" << std::endl;
-	}
+		if (plug == this->outPoint) {
+			MDataHandle ground, ray_from, ray_vector;
+			_getInputValue(data, &ground, &ray_from, &ray_vector);
 
-	/*MStatus returnStatus;
-	if (plug == output) {
-		MDataHandle inputData = data.inputValue(input, &returnStatus);
-		if (returnStatus != MS::kSuccess) cerr << "ERROR getting data" << endl;
-		else {
-			float result = std::sin(inputData.asFloat());
-			MDataHandle outputHandle = data.outputValue(output);
-			outputHandle.set(result);
+			_setOutputValue(data, 0.0, 0.0f, 0.0f);
+
 			data.setClean(plug);
 		}
 	}
-	*/
+	catch (MStatusException e) {
+		std::cerr << e.toString() << std::endl;
+	}
 	return MStatus::kSuccess;
 }
 
+void cma::FollowGround::_getInputValue(MDataBlock & data, MDataHandle * ground, MDataHandle * ray_from, MDataHandle * ray_vector) {
+	MStatus ret;
+	*ground = data.inputValue(inMesh, &ret);
+	MStatusException::throwIfError(ret, "groundメッシュの取得に失敗", "cma::FollowGround::_getInputValue");
+	*ray_from = data.inputValue(rayPoint, &ret);
+	MStatusException::throwIfError(ret, "レイ始点の取得に失敗", "cma::FollowGround::_getInputValue");
+	*ray_vector = data.inputValue(rayVector, &ret);
+	MStatusException::throwIfError(ret, "レイベクトルの取得に失敗", "cma::FollowGround::_getInputValue");
+}
+
+void cma::FollowGround::_setOutputValue(MDataBlock & data, const float x, const float y, const float z) {
+	MStatus ret;
+	MDataHandle outputHandle = data.outputValue(outPoint, &ret);
+	MStatusException::throwIfError(ret, "outPointの取得に失敗", "cma::FollowGround::_setOutputValue");	
+	outputHandle.set(x,y,z);
+}

@@ -131,6 +131,26 @@ private:
 	 */
 	static void _addAttr_rayPoint(void);
 
+	/**
+	 * 再計算(compute)時に使用するアトリビュート値の取得
+	 * @param data compute関数の引数であるdataの参照
+	 * @param ground グラウンド
+	 * @param ray_from レイ始点
+	 * @param ray_vector レイベクトル
+	 * @throws MStatusException それぞれの取得結果がkSuccess以外だった場合
+	 * @see cma::MStatusException
+	 */
+	static void _getInputValue(MDataBlock & data, MDataHandle * ground, MDataHandle * ray_from, MDataHandle * ray_vector);
+
+	/**
+	 * 再計算された値をアトリビュートへ反映させる
+	 * @param data compute関数の引数であるdataの参照
+	 * @param result 格納する結果の値
+	 * @throws MStatusException 格納時の結果がkSuccess以外だった場合
+	 * @see cma::MStatusException
+	 */
+	static void _setOutputValue(MDataBlock & data, const float x, const float y, const float z);
+
 };
 
 };
