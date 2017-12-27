@@ -23,9 +23,12 @@
 namespace cma {
 
 /**
- * これはクラスの説明
+ * FollowGroundノードクラス
+ * 始点からのベクトルレイと、地面との交点座標を算出するノード
  * @version 1.0
+ * @since 1.0
  * @author Shirao Shotaro
+ * @deprecated これはテストです。
  * @see MPxNode http://download.autodesk.com/us/maya/2011help/api/class_m_px_node.html
  */
 class FollowGround : public MPxNode{
@@ -33,44 +36,66 @@ public:
 	//////////////////////////////
 	// PUBLIC MEMBER CONSTANT
 	//////////////////////////////
+	/**
+	 * ノードID定数
+	 */
 	enum { kFollowGroundID = 0x70000 };
 
 	//////////////////////////////
 	// PUBLIC MEMBER VALIABLES
 	//////////////////////////////
+
+	/** 入力メッシュ
+	 * 地面として使用される。
+	 */
 	static MObject inMesh;
+
+	/** 出力ポイント
+	 * 地面に接する点の座標
+	 */
 	static MObject outPoint;
+
+	/** 入力ベクトル
+	 * 始点からのベクトルレイ
+	 */
 	static MObject rayVector;
 
-	static const MTypeId id;	//ID
+	/** ノードID
+	 */
+	static const MTypeId id;
 	
 	//////////////////////////////
 	// PUBLIC MEMBER FUNCTION
 	//////////////////////////////
 
-	/** Constructor
+	/** コンストラクタ
 	 */	
 	FollowGround();
 
-	/** Destructor
+	/** デストラクタ
 	 */
 	virtual ~FollowGround();
 
 	/**
-	 * 計算処理部分。距離を測って物体を移動させる
-	 * @param plug プラグ
-	 * @param data データ
+	 * ノードの計算処理部分
+	 * 距離を測って物体を移動させる
+	 * @param plug 計算中のプラグ
+	 * @param data 編集可能な内部データ
+	 * @return 計算に成功した場合kSuccessを返す
+	 * @see MPxNode::compute http://download.autodesk.com/us/maya/2011help/api/class_m_px_node.html#3dd5454e3fa92598836018ae9ab220c3
 	 */
-	virtual MStatus compute(const MPlug & plug, MDataBlock & data) override;
+	virtual MStatus compute(const MPlug & plug,
+							MDataBlock & data) override;
 
 	/**
-	 * 新しいインスタンスの生成関数。mayaからコールされる。
+	 * 新しいインスタンスの生成関数
 	 * @return 新しいインスタンスのnewポインタ
 	 */
 	static void * creator(void);
 
 	/**
 	 * ノード登録時に呼ばれる関数
+	 * @return 初期化に成功した場合kSuccessを返す
 	 */
 	static MStatus initialize(void);
 
@@ -80,19 +105,22 @@ private:
 
 	/**
 	 * inMeshのアトリビュート追加
-	 * @throws MStatus ステータスがkSuccess以外の時
+	 * @throws MStatusException ステータスがkSuccess以外の時に、詳細を含めて例外を投げる
+	 * @see cma::MStatusException
 	 */
 	static void _addAttr_inMesh(void);
 	
 	/**
 	 * inVectorのアトリビュート追加
-	 * @throws MStatus ステータスがkSuccess以外の時
+	 * @throws MStatusException ステータスがkSuccess以外の時に、詳細を含めて例外を投げる
+	 * @see cma::MStatusException
 	 */
 	static void _addAttr_rayVector(void);
 
 	/**
 	 * outPointのアトリビュート追加
-	 * @throws MStatus ステータスがkSuccess以外の時
+	 * @throws MStatusException ステータスがkSuccess以外の時に、詳細を含めて例外を投げる
+	 * @see cma::MStatusException
 	 */
 	static void _addAttr_outPoint(void);
 
