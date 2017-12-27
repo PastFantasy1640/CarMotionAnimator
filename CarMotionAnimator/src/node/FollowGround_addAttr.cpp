@@ -75,3 +75,25 @@ void cma::FollowGround::_addAttr_outPoint(void) {
 	stat = addAttribute(outPoint);
 	MStatusException::throwIfError(stat, "rayVectorアトリビュートの追加に失敗しました", "FollowGround::_addAttr_outPoint");
 }
+
+void cma::FollowGround::_addAttr_rayPoint(void) {
+	MStatus stat;
+	MFnNumericAttribute rayPoint_attr;
+	rayPoint = rayPoint_attr.createPoint("rayPoint", "from", &stat);
+	MStatusException::throwIfError(stat, "rayPointアトリビュートの生成に失敗しました", "FollowGround::_addAttr_rayPoint");
+
+	rayPoint_attr.setWritable(true);
+	rayPoint_attr.setReadable(false);
+	rayPoint_attr.setStorable(false);
+	rayPoint_attr.setConnectable(true);
+	rayPoint_attr.setInternal(false);
+	rayPoint_attr.setChannelBox(true);	
+	rayPoint_attr.setDefault(0.0, 10.0, 0.0);
+	rayPoint_attr.addToCategory("Ray Attribute");
+
+	stat = addAttribute(rayPoint);
+	MStatusException::throwIfError(stat, "rayPointアトリビュートの追加に失敗しました", "FollowGround::_addAttr_rayPoint");
+
+	stat = attributeAffects(rayPoint, outPoint);
+	MStatusException::throwIfError(stat, "rayPointアトリビュートにおいて、アトリビュート影響の登録に失敗しました", "FollowGround::_addAttr_rayPoint");
+}

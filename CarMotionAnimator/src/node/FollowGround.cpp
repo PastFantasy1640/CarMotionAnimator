@@ -4,6 +4,7 @@
 const MTypeId cma::FollowGround::id(cma::FollowGround::kFollowGroundID);
 MObject cma::FollowGround::inMesh;
 MObject cma::FollowGround::rayVector;
+MObject cma::FollowGround::rayPoint;
 MObject cma::FollowGround::outPoint;
 
 ////////////////////////////////////////
@@ -36,6 +37,7 @@ MStatus cma::FollowGround::initialize(void) {
 		_addAttr_outPoint();
 		_addAttr_inMesh();
 		_addAttr_rayVector();
+		_addAttr_rayPoint();
 	}
 	catch (const MStatusException & e) {
 		std::cerr << e.toString() << std::endl;

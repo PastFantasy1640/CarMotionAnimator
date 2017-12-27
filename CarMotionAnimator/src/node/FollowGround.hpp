@@ -57,6 +57,10 @@ public:
 	 */
 	static MObject rayVector;
 
+	/** レイ始点
+	 */
+	static MObject rayPoint;
+
 	/** ノードID
 	 */
 	static const MTypeId id;
@@ -112,13 +116,20 @@ private:
 	 * @see cma::MStatusException
 	 */
 	static void _addAttr_rayVector(void);
-
+	
 	/**
 	 * outPointのアトリビュート追加
 	 * @throws MStatusException ステータスがkSuccess以外の時に、詳細を含めて例外を投げる
 	 * @see cma::MStatusException
 	 */
 	static void _addAttr_outPoint(void);
+
+	/**
+	 * rayPointのアトリビュート追加
+	 * @throws MStatusException ステータスがkSuccess以外の時に、詳細を含めて例外を投げる
+	 * @see cma::MStatusException
+	 */
+	static void _addAttr_rayPoint(void);
 
 };
 
