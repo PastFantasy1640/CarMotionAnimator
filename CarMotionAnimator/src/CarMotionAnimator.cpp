@@ -104,7 +104,7 @@ MStatus removeCommands(MFnPlugin & plugin) {
 	std::vector<CommandPair> cmd_pairs = getCommands();
 	MStatus stat;
 	for (auto p = cmd_pairs.begin(); p != cmd_pairs.end(); ++p) {
-		//stat = plugin.deregisterCommand(p->command);
+		stat = plugin.deregisterCommand(p->command);
 		if (!stat) {
 			//コマンド登録解除時にエラーが発生
 			stat.perror(std::string("An error occured during deregistering command : " + std::string(p->command.asChar())).c_str());
