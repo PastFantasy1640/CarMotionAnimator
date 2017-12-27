@@ -58,11 +58,11 @@ public:
 	 * 始点からのベクトルレイ
 	 */
 	static MObject rayVector;
-
+	
 	/** レイ始点
 	 */
 	static MObject rayPoint;
-
+	
 	/** ノードID
 	 */
 	static const MTypeId id;

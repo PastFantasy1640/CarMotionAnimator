@@ -65,13 +65,15 @@ MStatus cma::FollowGround::compute(const MPlug & plug, MDataBlock & data) {
 			MDataHandle ground, ray_from, ray_vector;
 			_getInputValue(data, &ground, &ray_from, &ray_vector);
 
+			VectorF ray_from_v(ray_from.asFloat3());
+			VectorF ray_vector_v(ray_vector.asFloat3());
+
 			bool is_cross = false;
-			_getLengthToCrossPoint(ground.asMesh(), VectorF(ray_from.asFloat3()), VectorF(ray_vector.asFloat3()), &is_cross);
-
-
+			double distance = _getLengthToCrossPoint(ground.asMesh(), ray_from_v, ray_vector_v, &is_cross);
 			
+			VectorF ray_cross(ray_vector_v * distance + ray_from_v);
 
-			_setOutputValue(data, 0.0, 0.0f, 0.0f);
+			_setOutputValue(data, ray_cross.x, ray_cross.y, ray_cross.z);
 			data.setClean(plug);
 		}
 	}
@@ -111,15 +113,10 @@ double cma::FollowGround::_getLengthToCrossPoint(const MObject & ground, const V
 	MIntArray vertexes;
 	int triangle_num;
 	bool is_cross_current;
-	double length = 0.0;
+	double length = max_distance;
 	
-	std::cout << std::endl;
-	std::cout << "ray point" << ray_point.toString() << std::endl;
-	std::cout << "ray vector" << ray_vector.toString() << std::endl;
-	std::cout << "face num : " << face_iter.count() << std::endl;
-
 	for (; !face_iter.isDone(); face_iter.next()) {
-		//三角面の数を取得
+		//三角面の数を取得 
 		ret = face_iter.numTriangles(triangle_num);
 		MStatusException::throwIfError(ret, "三角面数の取得に失敗", "cma::FollowGround::_getLengthToCrossPoint");
 
@@ -129,15 +126,17 @@ double cma::FollowGround::_getLengthToCrossPoint(const MObject & ground, const V
 			MStatusException::throwIfError(ret, "三角フェースデータの取得に失敗", "cma::FollowGround::_getLengthToCrossPoint");
 			
 			//チェック関数
-			length = _checkHitPolygon(points, ray_point, ray_vector, &is_cross_current, max_distance);
+			double length_tmp = _checkHitPolygon(points, ray_point, ray_vector, &is_cross_current, max_distance);
 
-			//デバッグ
-			if(is_cross_current) std::cout << "CROSS!! distance => " << length << std::endl;
+			if (is_cross_current) {
+				std::cout << "CROSS!! distance => " << length << std::endl;
+				if (length_tmp < length) length = length_tmp;
+				*is_cross = true;
+			}
 		}
-
 	}
 
-	return 0.0;
+	return length;
 }
 
 double cma::FollowGround::_checkHitPolygon(const MPointArray & points, const VectorF ray_point, const VectorF ray_vector, bool * is_cross, const double max_distance) {
@@ -150,8 +149,6 @@ double cma::FollowGround::_checkHitPolygon(const MPointArray & points, const Vec
 
 	VectorD edge1(points[1] - points[0]);
 	VectorD edge2(points[2] - points[0]);
-	std::cout << "edge1" << edge1.toString() << std::endl;
-	std::cout << "edge2" << edge2.toString() << std::endl;
 
 	constexpr double epsilon = 0.00001;
 	auto isEqual = [epsilon](double a, double b) -> bool {
@@ -182,53 +179,3 @@ double cma::FollowGround::_checkHitPolygon(const MPointArray & points, const Vec
 
 	return ret;
 }
-
-/*
-lobal proc vector[] getDownsidePolygons(string $ground_object, vector $points[], vector $rays[]){    
-    int $i,$n;
-    int $face_num[] = `polyEvaluate -face ($ground_object)`;    //頂点数
-    float $epsilon = 0.000001;
-    
-    vector $ret[];
-        
-    for($i = 0; $i < $face_num[0]; $i++){
-        $plist = `polyListComponentConversion -fromFace -toVertex ($ground_object + ".f[" + $i + "]")`;
-        string $vertexes[] = `filterExpand -sm 31 $plist`;
-        if(size($vertexes) != 3) error "三角化を行ってください";
-        
-        vector $vec[3] = {
-            float3ToVector(`xform -query -ws -t $vertexes[0]`),
-            float3ToVector(`xform -query -ws -t $vertexes[1]`),
-            float3ToVector(`xform -query -ws -t $vertexes[2]`)};
-                
-        vector $edge1 = $vec[1] - $vec[0];
-        vector $edge2 = $vec[2] - $vec[0];
-        
-        $n = 0;
-        for($n = 0;$n < size($points); $n++){
-            vector $ray = $rays[$n];
-            
-            vector $invRay = -1 * $ray;
-            float $denominator = det($edge1, $edge2, $invRay);
-            
-            if(!(-$epsilon < $denominator && $denominator < $epsilon)){
-                //レイが平面と平行ではない
-                vector $d = $points[$n] - $vec[0];
-                float $u = det($d, $edge2, $invRay) / $denominator;
-                
-                if((0 <= $u) && ($u <= 1)){
-                    float $v = det($edge1, $d, $invRay) / $denominator;
-                    
-                    if((0 <= $v) && ($u + $v <= 1.0)){
-                        float $t = det($edge1, $edge2, $d) / $denominator;
-                        if($t >= 0){
-                            //交差している
-                            $ret[$n] = $ray * $t;
-                        }
-                    } 
-                }
-            }
-        }
-    }
-    return $ret;
-}*/

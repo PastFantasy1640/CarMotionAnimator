@@ -1,5 +1,6 @@
+#pragma comment(user, "CarMotionAnimator Plug-in Header")
 /////////////////////////////////////////////////////
-//[Module name]
+//Vector
 //
 //Copyright (c) 2017 Shotaro Shirao
 //
@@ -20,8 +21,9 @@
 
 namespace cma {
 
-/** Vector CLASS
- * 説明
+/** 
+ * ベクトルクラス
+ * 型はdouble、float、intを想定している
  */
 template <typename T> class Vector{
 public:
@@ -29,6 +31,8 @@ public:
 	//////////////////////////////
 	// PUBLIC MEMBER VALIABLES
 	//////////////////////////////
+	/** 座標パラメータ
+	 */
 	T x, y, z;
 	
 	//////////////////////////////
@@ -41,23 +45,30 @@ public:
 		: x(static_cast<T>(0.0)), y(static_cast<T>(0.0)), z(static_cast<T>(0.0)) {}
 
 	/** パラメータコンストラクタ
+	 * @param x x座標
+	 * @param y y座標
+	 * @param z z座標
 	 */
 	Vector(const T x, const T y, const T z)
 		: x(x), y(y), z(z) {}
 	
 	/** キャスト的コンストラクタ
+	 * @param cast 3つの要素を持った配列
 	 */
 	template <typename N> Vector(const N & cast);
 
 	/** Vectorキャストコンストラクタ
+	 * @param cast 他の型のベクトル
 	 */
 	template <typename N> Vector(const Vector<N> & cast);
 	
 	/** MPointからのコンストラクタ
+	 * @param m_point MPoint型からキャスト
 	 */
 	Vector(MPoint m_point);
 
 	/** MVectorからのコンストラクタ
+	 * @param m_vector MVector型からキャスト
 	 */
 	Vector(MVector m_vector);
 
@@ -83,13 +94,20 @@ public:
 	 * @return 加算後のベクトル
 	 */
 	Vector<T> operator+(const Vector<T> & v) const;
-
+	
 	/**
 	 * ベクトル同士の減算処理
 	 * @param v 減算するベクトル
 	 * @return 減算後のベクトル
 	 */
 	Vector<T> operator-(const Vector<T> & v) const;
+
+	/**
+	 * ベクトルの乗算処理
+	 * @param val 倍率
+	 * @return 乗算後のベクトル
+	 */
+	template <typename N> Vector<T> operator*(const N & val) const;
 
 	/** 表示用文字列に変換
 	 * @return 文字列
@@ -147,6 +165,16 @@ inline N Vector<T>::length(void) const {
 			static_cast<double>(this->y) * this->y +
 			static_cast<double>(this->z) * this->z
 		)
+	);
+}
+
+template<typename T>
+template<typename N>
+inline Vector<T> Vector<T>::operator*(const N & val) const {
+	return Vector<T>(
+		static_cast<T>(this->x * val),
+		static_cast<T>(this->y * val),
+		static_cast<T>(this->z * val)	
 	);
 }
 
