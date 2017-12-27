@@ -1,3 +1,4 @@
+#pragma comment(user, "CarMotionAnimator Plug-in Header")
 /////////////////////////////////////////////////////
 //MStatusException.hpp
 //
@@ -16,16 +17,27 @@
 
 namespace cma {
 
-/** MStatusException CLASS
- * 説明
+/** 
+ * mayaAPIのMStatusに例外処理を加えたもの。ただc++のstd::exceptionとは切り離して独自の例外型として処理する。
+ * @see MStatus https://help.autodesk.com/view/MAYAUL/2016/ENU/?guid=__cpp_ref_class_m_status_html
  */
 class MStatusException{
 public:
 	//////////////////////////////
 	// PUBLIC MEMBER CONSTANT
 	//////////////////////////////
+
+	/** ステータス本体
+	 */
 	const MStatus stat;
+
+	/** エラーメッセージ
+	 */
 	const MString message;
+
+	/** エラーの発生箇所。コンストラクタで設定しない場合は<unknown>となる。
+	 * 可能な限り分かりやすく設定するべき。
+	 */
 	const MString place;
 	
 	//////////////////////////////
@@ -38,15 +50,14 @@ public:
 	 * @param message メッセージ
 	 * @param place 発生個所を特定できる文字列
 	 */
-	MStatusException(const MStatus & stat, const MString & message, const MString & place = "<unlogged>");
+	MStatusException(const MStatus & stat, const MString & message, const MString & place = "<unknown>");
 	
-	/**
-	 * デクストラクタ。
+	/** デクストラクタ
 	 */
 	virtual ~MStatusException();
 
 	/**
-	 * 成形されたエラーメッセージを取得する
+	 * 指定フォーマットに成形されたエラーメッセージを取得する。
 	 * @return エラーメッセージ
 	 */
 	MString toString(void) const;

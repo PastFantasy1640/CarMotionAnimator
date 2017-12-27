@@ -26,7 +26,6 @@ namespace cma {
  * FollowGroundノードクラス
  * 始点からのベクトルレイと、地面との交点座標を算出するノード
  * @version 1.0
- * @author Shirao Shotaro
  * @see MPxNode http://download.autodesk.com/us/maya/2011help/api/class_m_px_node.html
  */
 class FollowGround : public MPxNode{
