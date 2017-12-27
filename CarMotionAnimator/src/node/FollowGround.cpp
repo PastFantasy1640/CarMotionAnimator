@@ -10,13 +10,13 @@ MObject cma::FollowGround::outPoint;
 ////////////////////////////////////////
 // FollowGround
 ////////////////////////////////////////
-cma::FollowGround::FollowGround() { std::cout << "constructor" << std::endl; }
+cma::FollowGround::FollowGround() { }
 
 
 ////////////////////////////////////////
 // ~FollowGround
 ////////////////////////////////////////
-cma::FollowGround::~FollowGround() {std::cout << "destructor" << std::endl;}
+cma::FollowGround::~FollowGround() { }
 
 
 ////////////////////////////////////////
