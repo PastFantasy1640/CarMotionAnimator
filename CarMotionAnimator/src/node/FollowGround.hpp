@@ -35,10 +35,6 @@ public:
 	//////////////////////////////
 	// PUBLIC MEMBER CONSTANT
 	//////////////////////////////
-	/**
-	 * ノードID定数
-	 */
-	enum { kFollowGroundID = 0x70000 };
 
 	//////////////////////////////
 	// PUBLIC MEMBER VALIABLES
@@ -63,9 +59,6 @@ public:
 	 */
 	static MObject rayPoint;
 	
-	/** ノードID
-	 */
-	static const MTypeId id;
 	
 	//////////////////////////////
 	// PUBLIC MEMBER FUNCTION

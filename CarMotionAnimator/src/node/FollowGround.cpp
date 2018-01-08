@@ -7,7 +7,6 @@
 
 #include "exception/MStatusException.hpp"
 
-const MTypeId cma::FollowGround::id(cma::FollowGround::kFollowGroundID);
 MObject cma::FollowGround::inMesh;
 MObject cma::FollowGround::rayVector;
 MObject cma::FollowGround::rayPoint;
@@ -38,7 +37,7 @@ void * cma::FollowGround::creator(void) {
 ////////////////////////////////////////
 MStatus cma::FollowGround::initialize(void) {
 
-	//ƒAƒgƒŠƒrƒ…[ƒg‚Ì’Ç‰Á
+	//ï¿½Aï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½Ì’Ç‰ï¿½
 	try {
 		_addAttr_outPoint();
 		_addAttr_inMesh();
@@ -61,7 +60,7 @@ MStatus cma::FollowGround::compute(const MPlug & plug, MDataBlock & data) {
 	MStatus ret;
 	try {
 		if (plug == this->outPoint) {
-			//“ü—ÍƒAƒgƒŠƒrƒ…[ƒg’læ“¾
+			//ï¿½ï¿½ï¿½ÍƒAï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½lï¿½æ“¾
 			MDataHandle ground, ray_from, ray_vector;
 			_getInputValue(data, &ground, &ray_from, &ray_vector);
 
@@ -86,17 +85,17 @@ MStatus cma::FollowGround::compute(const MPlug & plug, MDataBlock & data) {
 void cma::FollowGround::_getInputValue(MDataBlock & data, MDataHandle * ground, MDataHandle * ray_from, MDataHandle * ray_vector) {
 	MStatus ret;
 	*ground = data.inputValue(inMesh, &ret);
-	MStatusException::throwIfError(ret, "groundƒƒbƒVƒ…‚Ìæ“¾‚É¸”s", "cma::FollowGround::_getInputValue");
+	MStatusException::throwIfError(ret, "groundï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ìæ“¾ï¿½Éï¿½ï¿½s", "cma::FollowGround::_getInputValue");
 	*ray_from = data.inputValue(rayPoint, &ret);
-	MStatusException::throwIfError(ret, "ƒŒƒCn“_‚Ìæ“¾‚É¸”s", "cma::FollowGround::_getInputValue");
+	MStatusException::throwIfError(ret, "ï¿½ï¿½ï¿½Cï¿½nï¿½_ï¿½Ìæ“¾ï¿½Éï¿½ï¿½s", "cma::FollowGround::_getInputValue");
 	*ray_vector = data.inputValue(rayVector, &ret);
-	MStatusException::throwIfError(ret, "ƒŒƒCƒxƒNƒgƒ‹‚Ìæ“¾‚É¸”s", "cma::FollowGround::_getInputValue");
+	MStatusException::throwIfError(ret, "ï¿½ï¿½ï¿½Cï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½Ìæ“¾ï¿½Éï¿½ï¿½s", "cma::FollowGround::_getInputValue");
 }
 
 void cma::FollowGround::_setOutputValue(MDataBlock & data, const float x, const float y, const float z) {
 	MStatus ret;
 	MDataHandle outputHandle = data.outputValue(outPoint, &ret);
-	MStatusException::throwIfError(ret, "outPoint‚Ìæ“¾‚É¸”s", "cma::FollowGround::_setOutputValue");	
+	MStatusException::throwIfError(ret, "outPointï¿½Ìæ“¾ï¿½Éï¿½ï¿½s", "cma::FollowGround::_setOutputValue");	
 	outputHandle.set(x,y,z);
 }
 
@@ -104,10 +103,10 @@ double cma::FollowGround::_getLengthToCrossPoint(const MObject & ground, const V
 	MStatus ret;
 
 	MItMeshPolygon face_iter(ground, &ret);
-	MStatusException::throwIfError(ret, "ƒ|ƒŠƒSƒ“ƒtƒF[ƒXƒCƒeƒŒ[ƒ^‚Ìæ“¾‚É¸”s", "cma::FollowGround::_getLengthToCrossPoint");
+	MStatusException::throwIfError(ret, "ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½tï¿½Fï¿½[ï¿½Xï¿½Cï¿½eï¿½ï¿½ï¿½[ï¿½^ï¿½Ìæ“¾ï¿½Éï¿½ï¿½s", "cma::FollowGround::_getLengthToCrossPoint");
 
 	MFnMesh ground_mesh(ground, &ret);
-	MStatusException::throwIfError(ret, "ƒ|ƒŠƒSƒ“ƒtƒF[ƒX‚Ìæ“¾‚É¸”s", "cma::FollowGround::_getLengthToCrossPoint");
+	MStatusException::throwIfError(ret, "ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½tï¿½Fï¿½[ï¿½Xï¿½Ìæ“¾ï¿½Éï¿½ï¿½s", "cma::FollowGround::_getLengthToCrossPoint");
 
 	MPointArray points;
 	MIntArray vertexes;
@@ -116,16 +115,16 @@ double cma::FollowGround::_getLengthToCrossPoint(const MObject & ground, const V
 	double length = max_distance;
 	
 	for (; !face_iter.isDone(); face_iter.next()) {
-		//OŠp–Ê‚Ì”‚ğæ“¾ 
+		//ï¿½Oï¿½pï¿½Ê‚Ìï¿½ï¿½ï¿½ï¿½æ“¾ 
 		ret = face_iter.numTriangles(triangle_num);
-		MStatusException::throwIfError(ret, "OŠp–Ê”‚Ìæ“¾‚É¸”s", "cma::FollowGround::_getLengthToCrossPoint");
+		MStatusException::throwIfError(ret, "ï¿½Oï¿½pï¿½Êï¿½ï¿½Ìæ“¾ï¿½Éï¿½ï¿½s", "cma::FollowGround::_getLengthToCrossPoint");
 
 		for (int idx = 0; idx < triangle_num; idx++) {
-			//OŠp–Ê‚ğæ“¾
+			//ï¿½Oï¿½pï¿½Ê‚ï¿½ï¿½æ“¾
 			face_iter.getTriangle(idx, points, vertexes);
-			MStatusException::throwIfError(ret, "OŠpƒtƒF[ƒXƒf[ƒ^‚Ìæ“¾‚É¸”s", "cma::FollowGround::_getLengthToCrossPoint");
+			MStatusException::throwIfError(ret, "ï¿½Oï¿½pï¿½tï¿½Fï¿½[ï¿½Xï¿½fï¿½[ï¿½^ï¿½Ìæ“¾ï¿½Éï¿½ï¿½s", "cma::FollowGround::_getLengthToCrossPoint");
 			
-			//ƒ`ƒFƒbƒNŠÖ”
+			//ï¿½`ï¿½Fï¿½bï¿½Nï¿½Öï¿½
 			double length_tmp = _checkHitPolygon(points, ray_point, ray_vector, &is_cross_current, max_distance);
 
 			if (is_cross_current) {
@@ -141,8 +140,8 @@ double cma::FollowGround::_getLengthToCrossPoint(const MObject & ground, const V
 
 double cma::FollowGround::_checkHitPolygon(const MPointArray & points, const VectorF ray_point, const VectorF ray_vector, bool * is_cross, const double max_distance) {
 
-	//’¸“_”‚ª3ŒÅ’è
-	if (points.length() != 3) throw MStatusException(MStatus::kInvalidParameter, "OŠp–Ê‚É‚È‚Á‚Ä‚¢‚È‚¢", "cma::FollowGround::_checkHitPolygon");
+	//ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½3ï¿½Å’ï¿½
+	if (points.length() != 3) throw MStatusException(MStatus::kInvalidParameter, "ï¿½Oï¿½pï¿½Ê‚É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½", "cma::FollowGround::_checkHitPolygon");
 
 	double ret = max_distance;
 	if (is_cross != nullptr) *is_cross = false;
@@ -161,7 +160,7 @@ double cma::FollowGround::_checkHitPolygon(const MPointArray & points, const Vec
 	double denominator = VectorD::det(edge1, edge2, inv_ray);
 	
 	if (!isEqual(denominator, 0.0)) {
-		//ƒŒƒC‚ª•½–Ê‚Æ•½s‚Å‚Í‚È‚¢
+		//ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Æ•ï¿½ï¿½sï¿½Å‚Í‚È‚ï¿½
 		VectorD d = ray_point - VectorD(points[0]);
 		double u = VectorD::det(d, edge2, inv_ray) / denominator;
 
